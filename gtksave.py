@@ -20,7 +20,7 @@ def save_callback(dialog, result):
 
 def on_activate(app):
     home = os.getenv("HOME")
-    folder = Gio.File.new_for_path(home + "/Pictures/screenshots")
+    folder = Gio.File.new_for_path(home + "/Pictures")
     time = datetime.datetime.now().strftime("%e_%m_%Y-%H_%M_%S")
 
     f = Gtk.FileFilter.new()
