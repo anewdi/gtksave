@@ -7,7 +7,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      packages.${system}.default = pkgs.callPackage ./default.nix { };
+      packages.${system}.default = pkgs.callPackage ./package.nix { };
 
       devShells.${system}.default = pkgs.mkShell {
         inputsFrom = [ self.packages.${system}.default ];
