@@ -18,15 +18,18 @@ static bool stdinHasData() {
 }
 
 static void savedCb(GObject *source_object, GAsyncResult *res, gpointer data) {
-  GError *err;
   GFile *file;
 
-  err = NULL;
-  file = gtk_file_dialog_save_finish(GTK_FILE_DIALOG(source_object), res, &err);
+  file = gtk_file_dialog_save_finish(GTK_FILE_DIALOG(source_object), res, NULL);
 
   g_object_unref(source_object);
 
-  if (err == NULL && stdinHasData()) {
+  if (file == NULL) {
+    g_application_release(G_APPLICATION(data));
+    return;
+  }
+
+  if (stdinHasData()) {
     GFileOutputStream *fileStream;
     unsigned char buffer[BUFSIZE];
 
@@ -43,13 +46,11 @@ static void savedCb(GObject *source_object, GAsyncResult *res, gpointer data) {
 
     g_output_stream_close(G_OUTPUT_STREAM(fileStream), NULL, NULL);
     g_object_unref(fileStream);
-  } else {
-    g_object_unref(err);
   }
 
   printf("%s\n", g_file_get_path(file));
-
   g_object_unref(file);
+
   g_application_release(G_APPLICATION(data));
 }
 
