@@ -11,6 +11,7 @@
         src = ./src;
         pname = "gtksave";
         version = "0.2";
+        meta.mainProgram = "gtksave";
 
         nativeBuildInputs = with pkgs; [
           pkg-config
